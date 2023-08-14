@@ -1,0 +1,9 @@
+- import_tasks: install.yml
+- import_tasks: remove.yml
+
+- include_tasks: shell_completion.yml
+  loop: "{{ git_completion_shells }}"
+  when:
+    - git_package_install.name is defined
+    - "'rh-git' in git_package_install.name"
+

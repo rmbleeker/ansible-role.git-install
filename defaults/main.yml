@@ -1,0 +1,15 @@
+git_package_install:
+  name: rh-git227
+  extras:
+    - rh-git227-git-lfs
+
+git_packages_remove:
+  - 'rh-git218*'
+  - 'rh-git29*'
+  - 'git*'
+
+git_completion_shells:
+  - bash
+  - csh
+  - zsh
+

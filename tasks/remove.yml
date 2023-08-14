@@ -1,0 +1,22 @@
+- name: find the profile.d files for removed git versions
+  find:
+    path: /etc/profile.d
+    #pattern: 'scl-enable-rh-git*'
+    contains: '^source scl_source enable rh-git.*'
+    excludes: "{{ ((['*'] | product(git_package_install.name) | map('join') | list) | product(['*']) | map('join') | list) if 'rh-git' in git_package_install.name else omit }}"
+  register: scl_enable_rh_git
+
+- name: remove the profile.d files for removed git versions
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ scl_enable_rh_git.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: uninstall unwanted git versions
+  yum:
+    name: "{{ git_packages_remove }}"
+    state: absent
+    autoremove: yes
+

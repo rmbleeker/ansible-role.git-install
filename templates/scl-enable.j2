@@ -1,0 +1,3 @@
+source scl_source enable {{ git_package_install.name }}
+source {{ scl_git_completion.files[0].path | dirname }}/git-prompt.sh
+source {{ scl_git_completion.files[0].path }}

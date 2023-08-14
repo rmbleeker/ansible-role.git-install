@@ -1,0 +1,17 @@
+- name: find the paths to the completion files for {{ item }}
+  find:
+    path: "/opt/rh/{{ git_package_install.name }}"
+    pattern: "git-completion.*{{ item }}"
+    recurse: yes
+  register: scl_git_completion
+
+- name: enable scl git {{ item }} completion in /etc/profile.d
+  template:
+    src: scl-enable.j2
+    dest: "/etc/profile.d/scl-enable-{{ git_package_install.name }}.{{ 'sh' if item == 'bash' else item }}"
+    owner: root
+    group: root
+    mode: 0644
+    lstrip_blocks: yes
+    trim_blocks: yes
+
